@@ -1,11 +1,22 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import Head from "next/head";
+import { useState } from "react";
+import { ButtonBase, TextInputBase } from "@reusejs/react";
 
 export default function Home() {
+ 
+
+  const [data , setData] = useState("")
+  const [list , setList] = useState<string[]>([]);
+  const handleSubmit = () =>{
+    setList([...list,data])
+    setData("")
+  }
+
+  const handleChange = (value:any) => {
+    setData(value)
+  }
+  console.log(list);
+  
   return (
     <>
       <Head>
@@ -14,110 +25,40 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
+      {/* <div className='w-full flex justify-center align-middle items-center'>hello good to see you</div> */}
+      <main className="flex justify-center align-middle items-center">
+        <div className=" w-4/5 flex flex-col  justify-center pt-10 items-center">
+          <TextInputBase
+            htmlFor="price"
+            labelBaseProps={{
+              label: "",
+            }}
+            textInputBaseClasses={{
+              font: "h-11 text-md text-gray-600",
+              border: " border-gray-400 border-2 rounded-md",
+              borderRadius: " raounded-md",
+              padding: "pl-6",
+              width: "w-full",
+              wrapper:"w-full"
+            }}
+           
+            name="price"
+            onChange={handleChange}
+            placeholder="Type anything to append below"
+            type="text"
+            value={data}
           />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
+          <ButtonBase label="Add to List" variant="indigo" onClick={handleSubmit}/>
+          <div className="w-full h-96 mt-10 border-2 border-gray-400 rounded-md pt-6">
+          {
+            list?.map((item,index) =>
+            <li className="ml-4 text-xl text-teal-900 list-squire pt-1" key={index}>{item}</li>
+          )
+          }
         </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
         </div>
+        
       </main>
     </>
-  )
+  );
 }
